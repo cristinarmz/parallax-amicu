@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallax Translate3D Zoom Effect</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .section-typo-zoom-in {
+      width: 100%;
+      height: 300vh; /* This height ensures enough scroll space */
+      background-color: #fff;
+      color: #000;
+    }
+
+    .typo-zoom-sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      pointer-events: none; /* Ensure other content is not interactable */
+    }
+
+    .typo-zoom-text-wrapper {
+      will-change: transform;
+      width: 50vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-style: preserve-3d;
+    }
+
+    .typo-zoom-text-image {
+      transition: transform 0.5s ease;
+      transform-style: preserve-3d;
+      image-rendering: auto; /* Ensures proper scaling */
+    }
+
+    .content {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="section-typo-zoom-in">
+    <div class="typo-zoom-sticky">
+      <div class="typo-zoom-sticky-inner">
+        <div class="typo-zoom-text-wrapper">
+          <img id="zoomImage" src="https://assets-global.website-files.com/615edb5c549d52cd108ed268/64f6099f52d3de0803a839d8_Introducing.svg" alt="Zoom Image" class="typo-zoom-text-image">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <p>Scroll down to see the effect...</p>
+    <!-- Add more content as needed -->
+  </div>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      const zoomImage = document.getElementById('zoomImage');
+      const scrollValue = window.scrollY;
+      const scaleXValue = 1 + scrollValue * 0.014; // Adjust the horizontal scaling
+      const scaleYValue = 1 + scrollValue * 0.014; // Adjust the vertical scaling
+      const translateXValue = scrollValue * 0.05; // Adjust horizontal movement speed
+      const translateYValue = scrollValue * 0.2; // Adjust vertical movement speed
+
+      // Apply translate3d and scale3d based on scroll position
+      zoomImage.style.transform = `translate3d(${translateXValue}px, ${translateYValue}px, 0px) scale3d(${scaleXValue}, ${scaleYValue}, 1)`;
+    });
+  </script>
+</body>
+</html>

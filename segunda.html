@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title Banner Scroll Effect</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+            overflow-y: scroll; /* Always show vertical scrollbar */
+            scroll-snap-type: y mandatory; /* Enable scroll snapping */
+        }
+
+        .title-banner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0101C2; /* Initial background color */
+            color: #fff;
+            font-size: 2rem; /* Initial font size */
+            transition: background-color 0.5s ease; /* Smooth transition for background color change */
+            scroll-snap-align: start; /* Snap to the top of each section */
+            overflow: hidden; /* Hide overflowing content */
+        }
+
+        .banner-image {
+            width: 50%;
+            height: auto;
+            object-fit: cover; /* Cover the entire container with the image */
+            transition: transform 0.5s ease; /* Smooth transition for transform */
+        }
+    </style>
+</head>
+<body>
+    <div class="title-banner">
+        <img class="banner-image" src="https://assets-global.website-files.com/615edb5c549d52cd108ed268/64f6099f52d3de0803a839d8_Introducing.svg" alt="Banner Image">
+    </div>
+    <div style="height: 200vh;"></div> <!-- Placeholder content to enable scrolling -->
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const titleBanner = document.querySelector('.title-banner');
+            const image = titleBanner.querySelector('.banner-image');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const maxScroll = windowHeight / 2; // Scroll distance to reach maximum zoom
+
+            // Calculate zoom factor based on scroll position
+            const newScale = 1 + (scrollPosition / maxScroll);
+
+            // Apply zoom effect to the image
+            image.style.transform = `scale(${newScale})`;
+
+            // Calculate new background color based on the image
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0, image.width, image.height);
+            const imageData = context.getImageData(0, 0, image.width, image.height).data;
+            const averageColor = calculateAverageColor(imageData);
+            titleBanner.style.backgroundColor = `rgb(${averageColor.r}, ${averageColor.g}, ${averageColor.b})`;
+
+            // Calculate average color function
+            function calculateAverageColor(imageData) {
+                let r = 0, g = 0, b = 0;
+                for (let i = 0; i < imageData.length; i += 4) {
+                    r += imageData[i];
+                    g += imageData[i + 1];
+                    b += imageData[i + 2];
+                }
+                const pixels = imageData.length / 4;
+                return {
+                    r: Math.round(r / pixels),
+                    g: Math.round(g / pixels),
+                    b: Math.round(b / pixels)
+                };
+            }
+        });
+    </script>
+</body>
+</html>
