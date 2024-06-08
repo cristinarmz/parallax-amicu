@@ -13,8 +13,8 @@
 
     .section-typo-zoom-in {
       width: 100%;
-      height: 300vh; /* This height ensures enough scroll space */
-      background-color: #fff;
+      height: 200vh; /* This height ensures enough scroll space */
+      background-color: #0101C2;
       color: #000;
     }
 
@@ -24,7 +24,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      position: -webkit-sticky;
       position: sticky;
       top: 0;
       overflow: hidden;
@@ -32,7 +31,7 @@
 
     .typo-zoom-text-wrapper {
       will-change: transform;
-      width: 60vw; /* Initial width */
+      width: 20vw; /* Initial width */
       transform-style: preserve-3d;
     }
 
@@ -49,8 +48,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #222225;
-      color: #FFFF;
+      background-color: #FFFF;
+      color: #06052E
     }
 
     .content {
@@ -65,7 +64,7 @@
     <div class="typo-zoom-sticky">
       <div class="typo-zoom-sticky-inner">
         <div class="typo-zoom-text-wrapper">
-          <img id="zoomImage" src="https://assets-global.website-files.com/615edb5c549d52cd108ed268/64f6099f52d3de0803a839d8_Introducing.svg" alt="MacBook Air" class="typo-zoom-text-image">
+          <img id="zoomImage" src="./images/amicu.svg"  class="typo-zoom-text-image">
         </div>
       </div>
     </div>
@@ -87,7 +86,7 @@
         scrub: true,
       },
       width: "6000vw",
-      x: "-300vw",
+      x: "10vw",
       ease: "none"
     });
 
