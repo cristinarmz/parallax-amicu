@@ -3,77 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transition Effect</title>
+    <title>Scroll-triggered Transition Effect</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            overflow-x: hidden;
         }
 
-        .green-section {
-            background-color: green;
-            color: white;
+        .section1 {
+            background-color: rgb(252, 176, 187);
             height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            position: relative;
+            justify-content: center;
             overflow: hidden;
+            padding-top: 32px;
+            transition: background-color 300ms;
         }
 
-        .white-section {
+        .section1 .bg-layer {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            width: 100%;
+            will-change: transform;
+            clip-path: circle(100% at 50% 100%);
+        }
+
+        .bg-layer1 {
+            background-color: rgb(226, 209, 254);
+            transform: scale(2);
+        }
+
+        .bg-layer2 {
+            background-color: rgb(252, 176, 187);
+            transform: scale(2);
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .section2 {
             background-color: white;
-            color: black;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 20px 0 12rem;
             position: relative;
-            overflow: hidden;
+            overflow-x: clip;
         }
 
         .transition-ellipse {
             position: absolute;
-            top: -100%;
             left: 0;
+            top: -100%;
             width: 100%;
             height: 200%;
             background-color: white;
-            clip-path: ellipse(50% 4% at 50% 80%);
-            transform: scale(2);
-            z-index: 10;
+            will-change: transform;
+            clip-path: ellipse(50% 13.0545% at 50% 80%);
+            opacity: 1;
+            transition: clip-path 1s, transform 1s;
         }
 
         .content {
             position: relative;
-            z-index: 20;
+            z-index: 10;
             text-align: center;
+            padding: 20px;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 3em;
-        }
-
-        p {
-            font-size: 1.5em;
+        .sticky-content {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 12px;
         }
     </style>
 </head>
 <body>
-    <section class="green-section">
-        <div class="content">
-            <h1>Green Section</h1>
-            <p>This is the green section of the page.</p>
+    <section class="section1">
+        <div class="bg-layer bg-layer1"></div>
+        <div class="bg-layer bg-layer2"></div>
+        <div class="container">
+            <h1>We’re all in this.</h1>
+        </div>
+        <div class="relative z-10 mt-auto flex h-[300px] w-full transform-gpu justify-center overflow-visible pt-6 md:h-[450px] 3xl:h-[600px]">
+            <div class="relative flex h-full w-full transform-gpu justify-center overflow-visible">
+                <div class="absolute inset-0 flex min-h-full w-full flex-1 transform-gpu items-end overflow-visible">
+                    <img alt="andyAdam" draggable="false" fetchpriority="high" width="2560" height="938" decoding="async" class="opacity-100 transition-opacity duration-200 mx-auto h-full !w-auto overflow-visible !object-cover object-bottom" src="https://together2024.wpengine.com/wp-content/uploads/2023/06/andyAdam.png" style="color: transparent;">
+                </div>
+                <!-- Add additional images here as necessary -->
+            </div>
         </div>
     </section>
-    <section class="white-section">
-        <div class="transition-ellipse"></div>
-        <div class="content">
-            <h1>White Section</h1>
-            <p>This is the white section of the page.</p>
+
+    <section class="section2">
+        <div class="transition-ellipse" id="transitionEllipse"></div>
+        <div class="container">
+            <div class="content">
+                <p>Together is a team of good people who spend their time thinking of ways to make your customers like you more, and who will probably offer to water your plants when you’re on holiday.</p>
+            </div>
+            <div class="sticky-content">
+                <h2>Good to know.</h2>
+                <div class="mt-[72px] space-y-8">
+                    <div class="flex h-[320px] w-full items-center rounded-lg bg-beige px-5 py-6 will-change-transform md:h-[270px] md:p-5">
+                        <div class="mx-auto w-full max-w-[542px]">
+                            <h3>We’re technically exclusive.</h3>
+                            <p>All of our clients are in tech. We sometimes pretend that was always our plan, but the truth is it just kind of happened, and we liked it. Having a type means we have a deeper understanding of the unique challenges you face.</p>
+                        </div>
+                    </div>
+                    <!-- Add additional content blocks as necessary -->
+                </div>
+            </div>
         </div>
     </section>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const transitionEllipse = document.getElementById('transitionEllipse');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+
+            if (scrollPosition > windowHeight / 2) {
+                transitionEllipse.style.clipPath = 'ellipse(50% 100% at 50% 50%)';
+                transitionEllipse.style.transform = 'scale(1)';
+            } else {
+                transitionEllipse.style.clipPath = 'ellipse(50% 13.0545% at 50% 80%)';
+                transitionEllipse.style.transform = 'scale(2)';
+            }
+        });
+    </script>
 </body>
 </html>
+
