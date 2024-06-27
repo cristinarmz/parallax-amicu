@@ -16,6 +16,7 @@
       height: 200vh; /* This height ensures enough scroll space */
       background-color: #0101C2;
       color: #000;
+      position: relative; /* For positioning the scroll button */
     }
 
     .typo-zoom-sticky {
@@ -27,6 +28,7 @@
       position: sticky;
       top: 0;
       overflow: hidden;
+      flex-direction: column; /* Stack image and button vertically */
     }
 
     .typo-zoom-text-wrapper {
@@ -55,9 +57,26 @@
     .content {
       padding: 20px;
     }
+
+    .scroll-down-btn {
+      margin-top: 20px; /* Space between image and button */
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 10;
+      transition: opacity 0.3s;
+    }
+
+    .scroll-down-btn:hover {
+      opacity: 0.8;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/ScrollToPlugin.min.js"></script>
 </head>
 <body>
   <div class="section-typo-zoom-in">
@@ -67,6 +86,8 @@
           <img id="zoomImage" src="./images/amicu.svg"  class="typo-zoom-text-image">
         </div>
       </div>
+      <button class="scroll-down-btn">Scroll Down</button>
+      <img style="width:200px;" src="./images/Hero-amicu.png">
     </div>
   </div>
   <div class="section-content">
@@ -99,6 +120,11 @@
         scrub: true,
       },
       ease: "power1.out"
+    });
+
+    // Scroll down button functionality
+    document.querySelector(".scroll-down-btn").addEventListener("click", () => {
+      gsap.to(window, { duration: 1, scrollTo: ".section-content" });
     });
   </script>
 </body>

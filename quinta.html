@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parallax Translate3D Zoom Effect</title>
+  <title>GSAP ScrollTrigger Example</title>
   <style>
     body {
       margin: 0;
@@ -13,8 +13,8 @@
 
     .section-typo-zoom-in {
       width: 100%;
-      height: 300vh; /* This height ensures enough scroll space */
-      background-color: #fff;
+      height: 180vh; /* This height ensures enough scroll space */
+      background-color: #0101C2;
       color: #000;
     }
 
@@ -26,11 +26,12 @@
       align-items: center;
       position: sticky;
       top: 0;
+      overflow: hidden;
     }
 
     .typo-zoom-text-wrapper {
       will-change: transform;
-      width: 50vw; /* Adjust as needed */
+      width: 20vw; /* Initial width */
       transform-style: preserve-3d;
     }
 
@@ -41,40 +42,61 @@
       height: auto; /* Allows the image to maintain its aspect ratio */
     }
 
+    .section-content {
+      width: 100%;
+      height: 70vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #FFFF;
+      color: #06052E
+    }
+
     .content {
       padding: 20px;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
   <div class="section-typo-zoom-in">
     <div class="typo-zoom-sticky">
       <div class="typo-zoom-sticky-inner">
         <div class="typo-zoom-text-wrapper">
-          <img id="zoomImage" src="https://assets-global.website-files.com/615edb5c549d52cd108ed268/64f6099f52d3de0803a839d8_Introducing.svg" alt="MacBook Air" class="typo-zoom-text-image">
+          <img id="zoomImage" src="./images/amicu.svg"  class="typo-zoom-text-image">
         </div>
       </div>
     </div>
   </div>
-  <div class="content">
-    <p>Scroll down to see the effect...</p>
-    <!-- Add more content as needed -->
-  </div>
 
   <script>
-    window.addEventListener('scroll', function() {
-    const typoZoomTextWrapper = document.querySelector('.typo-zoom-text-wrapper');
-    const scrollValue = window.scrollY;
+    gsap.registerPlugin(ScrollTrigger);
 
-    // Calculate width and translate values based on scroll position
-    const wrapperWidthPercent = 60 + (scrollValue / (document.documentElement.scrollHeight - window.innerHeight)) * (6000 - 60);
-    const wrapperTranslatePercent = (scrollValue / (document.documentElement.scrollHeight - window.innerHeight)) * 300;
+    // Animate the zoom effect
+    gsap.to(".typo-zoom-text-wrapper", {
+      scrollTrigger: {
+        trigger: ".section-typo-zoom-in",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+      width: "6000vw",
+      x: "30vw",
+      y: "650vw",
+      ease: "none"
+    });
 
-    // Set the width and transform values dynamically
-    typoZoomTextWrapper.style.width = `${wrapperWidthPercent}vw`;
-    typoZoomTextWrapper.style.transform = `translate3d(-${wrapperTranslatePercent}vw, 0px, 0px)`;
-});
-
+    // No fade effect, just make sure the second section is visible
+    gsap.to(".section-content", {
+      scrollTrigger: {
+        trigger: ".section-content",
+        start: "top bottom",
+        end: "top top",
+        scrub: true,
+      },
+      ease: "power1.out"
+    });
   </script>
 </body>
 </html>
